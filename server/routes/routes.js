@@ -12,7 +12,7 @@ const router = express.Router()
 const diskstorage = multer.diskStorage({
     destination: path.join(__dirname, "../images"),
     filename: (req, file, cb) => {
-        cb(null, Date.now() + "-monkeywit" + file.originalname)
+        cb(null, Date.now() + "-foto" + file.originalname)
     },
 });
 
@@ -55,7 +55,7 @@ router.get("/images/get", (req, res) => {
             if (err) return res.status(500).send("Error en el servidor");
 
             rows.map(img => {
-                fs.writeFileSync(path.join(__dirname, '../dbimages/' + img.id + '-monkeywit.png'), img.data);
+                fs.writeFileSync(path.join(__dirname, '../dbimages/' + img.id + '-foto.png'), img.data);
             })
 
             const imagedir = fs.readdirSync(path.join(__dirname, "../dbimages/"))
@@ -77,7 +77,7 @@ router.delete("/images/delete/:id", (req, res) => {
         conn.query("DELETE FROM image WHERE id = ?", [req.params.id], (err, rows) => { 
             if (err) return res.status(500).send("Error en el servidor")
 
-            fs.unlinkSync(path.join(__dirname, "../dbimages/"+ req.params.id + "-monkeywit.png"))//Metodo para eliminar unlinkSync
+            fs.unlinkSync(path.join(__dirname, "../dbimages/"+ req.params.id + "-foto.png"))//Metodo para eliminar unlinkSync
 
             res.send("Imagen Eliminada")  
         })
